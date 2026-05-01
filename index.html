@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOXEFOOD | Premium Fast Food</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><circle cx='256' cy='256' r='256' fill='%23ff9f43'/><path d='M128 256c0-46 32-76 128-76s128 30 128 76H128z' fill='white'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #ff9f43;
+            --secondary: #ee5253;
+            --dark: #121212;
+            --light-dark: #1e1e1e;
+            --text-white: #ffffff;
+            --text-gray: #a0a0a0;
+            --transition: 0.3s ease-in-out;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--dark); color: var(--text-white); overflow-x: hidden; }
+        a { text-decoration: none; }
+        li { list-style: none; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px); position: fixed; width: 100%; z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; color: var(--primary); letter-spacing: 1px; }
+        .logo span { color: var(--text-white); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--text-white); font-weight: 500; font-size: 15px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10%;
+        }
+        .hero-content h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; }
+        .hero-content h1 span { color: var(--primary); }
+        .hero-content p { font-size: 1.2rem; color: var(--text-gray); margin-bottom: 35px; max-width: 700px; margin-inline: auto; }
+        
+        .btn-vox {
+            background: var(--primary); color: var(--dark); padding: 16px 45px;
+            border-radius: 50px; font-weight: 700; font-size: 18px; border: 2px solid var(--primary);
+            transition: var(--transition); display: inline-block;
+        }
+        .btn-vox:hover { background: transparent; color: var(--primary); transform: scale(1.05); }
+
+        /* --- MENU SECTION (12 CARDS) --- */
+        .container { width: 85%; margin: 0 auto; padding: 100px 0; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-family: 'Montserrat', sans-serif; font-size: 40px; text-transform: uppercase; }
+        .section-title h2 span { color: var(--primary); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { 
+            background: var(--light-dark); border-radius: 25px; padding: 25px; 
+            transition: var(--transition); border: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-15px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        
+        .card-img { width: 100%; height: 200px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .card:hover .card-img img { transform: scale(1.1); }
+
+        .card h3 { font-size: 22px; margin-bottom: 10px; color: var(--primary); }
+        .card p { color: var(--text-gray); font-size: 14px; margin-bottom: 20px; flex-grow: 1; }
+        
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .price { font-weight: 800; font-size: 20px; }
+        .order-btn { color: var(--primary); font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .order-btn:hover { color: var(--text-white); }
+
+        /* --- ABOUT US --- */
+        .about { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; background: #0a0a0a; padding: 100px 8%; }
+        .about-img { flex: 1; min-width: 300px; border-radius: 30px; overflow: hidden; height: 450px; }
+        .about-img img { width: 100%; height: 100%; object-fit: cover; }
+        .about-text { flex: 1; min-width: 300px; }
+        .about-text h2 { font-family: 'Montserrat', sans-serif; font-size: 35px; margin-bottom: 25px; }
+        .about-text h2 span { color: var(--primary); }
+        .about-text p { color: var(--text-gray); margin-bottom: 20px; font-size: 17px; line-height: 1.8; }
+        .card {
+    background: #1e1e1e;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: #ff9f43;
+}
+
+.card-img {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.card h3 {
+    color: #ff9f43;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #a0a0a0;
+    font-size: 13px;
+    margin-bottom: 15px;
+    min-height: 40px;
+}
+
+.card ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.card ul li {
+    font-size: 12px;
+    color: #ddd;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.card ul li i {
+    color: #2ed573;
+    margin-right: 10px;
+    width: 15px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+}
+
+.price {
+    font-weight: 800;
+    font-size: 18px;
+    color: #fff;
+}
+
+.order-btn {
+    background: transparent;
+    color: #ff9f43;
+    border: 1px solid #ff9f43;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.order-btn:hover {
+    background: #ff9f43;
+    color: #000;
+}
+
+        /* --- FOOTER --- */
+        footer { background: #050505; padding: 80px 8% 30px; border-top: 1px solid rgba(255,255,255,0.05); width: 100%; height: 100%; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 50px; }
+        .footer-col h4 { color: var(--primary); font-family: 'Montserrat', sans-serif; margin-bottom: 25px; text-transform: uppercase; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: var(--text-gray); transition: var(--transition); }
+        .footer-col ul li a:hover { color: var(--primary); padding-left: 8px; }
+        
+        .socials { display: flex; gap: 20px; margin-top: 20px; }
+        .socials a { width: 45px; height: 45px; background: var(--light-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-white); transition: var(--transition); }
+        .socials a:hover { background: var(--primary); color: var(--dark); }
+
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); color: #555; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+            .about { text-align: center; }
+        }
+    /* About Us Styles */
+    .vox-about {
+        padding: 100px 8%;
+        background-color: #0a0a0a;
+        color: #fff;
+    }
+
+    .about-container {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+        flex-wrap: wrap;
+    }
+
+    .about-image {
+        flex: 1;
+        min-width: 320px;
+    }
+
+    .image-wrapper {
+        position: relative;
+    }
+
+    .image-wrapper img {
+        width: 100%;
+        border-radius: 30px;
+        border: 2px solid #ff9f43;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .experience-badge {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        background: #ff9f43;
+        color: #000;
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(255,159,67,0.3);
+    }
+
+    .experience-badge .years {
+        display: block;
+        font-size: 32px;
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .experience-badge .text {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .about-content {
+        flex: 1.2;
+        min-width: 320px;
+    }
+
+    .sub-title {
+        color: #ff9f43;
+        font-weight: 700;
+        letter-spacing: 2px;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .about-content h2 {
+        font-size: clamp(28px, 4vw, 42px);
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.2;
+        margin-bottom: 25px;
+    }
+
+    .about-content h2 span {
+        color: #ff9f43;
+    }
+
+    .about-content p {
+        color: #a0a0a0;
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 35px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .feature-item {
+        display: flex;
+        gap: 15px;
+    }
+
+    .f-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255,159,67,0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ff9f43;
+        font-size: 20px;
+    }
+
+    .f-text h4 {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .f-text p {
+        font-size: 13px;
+        margin-bottom: 0;
+        line-height: 1.4;
+    }
+
+    .about-btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background: #ff9f43;
+        color: #000;
+        font-weight: 700;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .about-btn:hover {
+        background: #fff;
+        transform: translateY(-5px);
+    }
+
+    @media (max-width: 992px) {
+        .about-container {
+            flex-direction: column;
+            text-align: center;
+        }
+        .feature-item {
+            text-align: left;
+        }
+        .experience-badge {
+            right: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+
+    <nav>
+       <div class="logo">
+    <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <div class="icon-box" style="position: relative; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-circle" style="color: rgba(255, 159, 67, 0.2); font-size: 45px;"></i>
+            <i class="fas fa-burger" style="position: absolute; color: #ff9f43; font-size: 24px; filter: drop-shadow(0 0 5px rgba(255,159,67,0.5));"></i>
+            <i class="fas fa-fire" style="position: absolute; top: -5px; right: -5px; color: #ee5253; font-size: 16px;"></i>
+        </div>
+        <span style="font-family: 'Montserrat'; font-weight: 900; font-size: 26px; letter-spacing: 1px;">
+            <span style="color: #ff9f43;">VOXE</span><span style="color: #fff;">FOOD</span>
+        </span>
+    </a>
+</div>
+        <ul class="nav-links">
+            <li><a href="#">Bosh sahifa</a></li>
+            <li><a href="#menu">Menyu</a></li>
+            <li><a href="#about">Biz haqimizda</a></li>
+            <li><a href="#footer">Aloqa</a></li>
+        </ul>
+        <a href="#menu" class="btn-vox" style="padding: 8px 25px; font-size: 14px;">menyu</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Haqiqiy Ta'm <span>VOXEFOOD</span> Bilan!</h1>
+            <p>Siz sog'ingan sershira burgerlar, qisir-qisir free va maxsus combo to'plamlar. Biz sifat va tezlikni kafolatlaymiz.</p>
+            <a href="#menu" class="btn-vox">MENYUNI KO'RISH</a>
+        </div>
+    </section>
+
+    <section class="vox-about" id="about">
+    <div class="about-container">
+        <div class="about-image">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1000" alt="Voxefood Kitchen">
+                <div class="experience-badge">
+                    <span class="years">6+</span>
+                    <span class="text">Yillik Tajriba</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-content">
+            <span class="sub-title">BIZ HAQIMIZDA</span>
+            <h2>VOXEFOOD — Sifatli Ta'm va <span>Yuksak Mehmondo'stlik</span></h2>
+            <p>
+                Biz 2018-yildan buyon shahrimiz aholisiga nafaqat taom, balki haqiqiy quvonch ulashib kelmoqdamiz. 
+                Har bir burger va har bir combo to'plami bizning oshpazlarimiz tomonidan maxsus mehr bilan tayyorlanadi.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-heart"></i></div>
+                    <div class="f-text">
+                        <h4>100% Halol</h4>
+                        <p>Faqat saralangan halol go'sht mahsulotlari.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-truck"></i></div>
+                    <div class="f-text">
+                        <h4>Tezkor Yetkazish</h4>
+                        <p>30 daqiqa ichida issiq holatda yetkazamiz.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-utensils"></i></div>
+                    <div class="f-text">
+                        <h4>Yangi Pishgan</h4>
+                        <p>Har bir buyurtma noldan tayyorlanadi.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-star"></i></div>
+                    <div class="f-text">
+                        <h4>A'lo Sifat</h4>
+                        <p>Mijozlarimiz tomonidan 5 yulduzli baho.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#menu" class="about-btn">Menyuni Ko'rish</a>
+        </div>
+    </div>
+</section>
+
+    <div class="container" id="menu">
+        <div class="section-title">
+            <h2>Bizning <span>Combo</span>lar</h2>
+        </div>
+       <div class="menu-grid">
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500" alt="Burger"></div>
+        <div class="card-body">
+            <h3>VOXE Burger Max</h3>
+            <p>Juicy mol go'shti, pishloq, yangi salat bargi va maxsus VOXE sousi.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Katta Burger</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">45,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?q=80&w=500" alt="Lavash"></div>
+        <div class="card-body">
+            <h3>VOXE Lavash Mix</h3>
+            <p>Yupqa xamir ichida grilda pishgan go'sht, chiplar va bodring.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Mol go'shtli Lavash</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">42,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=500" alt="Pizza"></div>
+        <div class="card-body">
+            <h3>Pizza Combo</h3>
+            <p>Haqiqiy italyancha pitsa, mozzarella pishlog'i va pomidorlar.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Pizza Margarita (25cm)</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">65,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=500" alt="Nuggets"></div>
+        <div class="card-body">
+            <h3>Naggets Party</h3>
+            <p>Qisir-qisir tovuq naggetslari va pishloqli sous.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> 10 dona Naggetslar</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">38,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://avatars.mds.yandex.net/i?id=db521d50094f9045f0ba3b75acf977fe_l-9068298-images-thumbs&ref=rim&n=13&w=900&h=900" alt="Hotdog"></div>
+        <div class="card-body">
+            <h3>Hot-Dog King</h3>
+            <p>Maxsus yumshoq bulochka va sershira mol go'shtli sosiska.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> King Hot-Dog</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">32,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=500" alt="Cheese Burger"></div>
+        <div class="card-body">
+            <h3>Double Cheese</h3>
+            <p>Ikki barobar ko'p pishloq va ikki barobar ko'p lazzat.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Double Cheeseburger</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">52,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1619096252214-ef06c45683e3?q=80&w=500" alt="Donar"></div>
+        <div class="card-body">
+            <h3>VOXE Donar Box</h3>
+            <p>Teskari usulda tayyorlangan gril go'shti va guruch.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Donar (Bulochka)</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">44,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=500" alt="Wings"></div>
+        <div class="card-body">
+            <h3>Spicy Wings</h3>
+            <p>Achiq qalampirli va qovurilgan tovuq qanotchalari.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> 6 dona Qanotchalar</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">40,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?q=80&w=500" alt="Fries"></div>
+        <div class="card-body">
+            <h3>Snack Combo</h3>
+            <p>Asosan kartoshka fri va qisir-qisir chiplarni xush ko'ruvchilar uchun.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> 2 porsiya Free </li>
+                <li><i class="fas fa-box"></i> 2 xil Sous</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">25,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=500" alt="Sandwich"></div>
+        <div class="card-body">
+            <h3>Club Sandwich</h3>
+            <p>Tosterda pishgan non va sershira tovuq go'shti.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Club Sandwich</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">35,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=500" alt="Donut"></div>
+        <div class="card-body">
+            <h3>Dessert Combo</h3>
+            <p>Shirinliksevarlar uchun shokoladli donut va muzqaymoq.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> 2 dona Donut</li>
+                <li><i class="fas fa-box"></i> Free Kartoshkasi</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">30,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-img"><img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?q=80&w=500" alt="Breakfast"></div>
+        <div class="card-body">
+            <h3>Morning Box</h3>
+            <p>Ertalabki energiya: tuxum, kolbasa va sariyog'li non.</p>
+            <ul>
+                <li><i class="fas fa-utensils"></i> Nonushta to'plami</li>
+                <li><i class="fas fa-box"></i> Coffee / Choy</li>
+                <li><i class="fas fa-glass-water"></i> Pepsi 0.5L</li>
+            </ul>
+            <div class="card-footer">
+                <span class="price">33,000 so'm</span>
+                <button class="order-btn">Buyurtma Berish</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </section>
+
+    <footer id="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;">VOXE<span>FOOD</span></div>
+                <p>Tez, mazali va sifatli fastfood olami. Biz bilan har bir luqma baxtli lahza!</p>
+                <div class="socials">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Katalog</h4>
+                <ul>
+                    <li><a href="#">Burgerlar</a></li>
+                    <li><a href="#">Lavashlar</a></li>
+                    <li><a href="#">Combo To'plamlar</a></li>
+                    <li><a href="#">Ichimliklar</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Ma'lumot</h4>
+                <ul>
+                    <li><a href="#">Yetkazib berish</a></li>
+                    <li><a href="#">Biz haqimizda</a></li>
+                    <li><a href="#">Vakansiyalar</a></li>
+                    <li><a href="#">Qayta aloqa</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Aloqa</h4>
+                <p><i class="fas fa-phone" style="color:var(--primary); margin-right: 10px;"></i> +998 71 123 45 67</p>
+                <p><i class="fas fa-envelope" style="color:var(--primary); margin-right: 10px;"></i> info@voxefood.uz</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--primary); margin-right: 10px;"></i> Qoraqalpog;iston., taxiatosh tumani</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 VOXEFOOD. Barcha huquqlar himoyalangan.
+        </div>
+    </footer>
+
+</body>
+</html>
